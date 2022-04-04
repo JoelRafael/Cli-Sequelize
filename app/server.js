@@ -1,0 +1,22 @@
+'use strict'
+const express = require('express');
+const app = express();
+const morgan = require('morgan');
+const connection = require('./database/db')
+require("dotenv").config()
+const port =  process.env.PORT || 3000
+app.use(morgan("dev"))
+app.use(express.json())
+//Listen server//
+
+app.get('/',(req, res)=>{
+    res.json({hola:"Mundo"})
+})
+app.listen(port, ()=>{
+    console.log(`http://localhost:${port}`)
+    connection.sync({force:true}).then(()=>{
+        console.log("Conexion establecida")
+ }).catch(error=>{
+    console.log(`Se ha producido un error`, error)
+    })
+})

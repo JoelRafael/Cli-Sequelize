@@ -4,9 +4,10 @@ const app = express();
 const morgan = require('morgan');
 const connection = require('./database/db')
 require("dotenv").config()
-const port =  process.env.PORT || 3000
+const port =  process.env.PORT || 3000;
 app.use(morgan("dev"))
 app.use(express.json())
+app.use(require('./routes'))
 //Listen server//
 
 app.get('/',(req, res)=>{
@@ -14,7 +15,7 @@ app.get('/',(req, res)=>{
 })
 app.listen(port, ()=>{
     console.log(`http://localhost:${port}`)
-    connection.sync({force:true}).then(()=>{
+    connection.sync({force:false}).then(()=>{
         console.log("Conexion establecida")
  }).catch(error=>{
     console.log(`Se ha producido un error`, error)
